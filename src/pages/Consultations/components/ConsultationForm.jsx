@@ -17,7 +17,7 @@ function ConsultationForm({
 
     return (
 
-        <Card title={editID ? "Update Consultation" : "Add Consultation"}>
+        <Card title={editID ? "Update Consultation" : "Schedule Consultation"}>
 
             <form
 
@@ -26,6 +26,8 @@ function ConsultationForm({
                 className="grid gap-4 md:grid-cols-2"
 
             >
+
+                {/* Diagnosis */}
 
                 <input
 
@@ -45,6 +47,8 @@ function ConsultationForm({
 
                 />
 
+                {/* Medicine */}
+
                 <input
 
                     type="text"
@@ -63,69 +67,131 @@ function ConsultationForm({
 
                 />
 
-                <input
+                {/* Consultation Date */}
 
-                    type="date"
+                <div>
 
-                    name="consultation_date"
+                    <label className="mb-2 block text-sm font-semibold text-gray-700">
 
-                    value={form.consultation_date}
+                        Consultation Date
 
-                    onChange={handleChange}
+                    </label>
 
-                    className="rounded-lg border border-gray-300 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    <input
 
-                    required
+                        type="date"
 
-                />
+                        name="consultation_date"
 
-                <select
+                        value={form.consultation_date}
 
-                    name="patient_id"
+                        onChange={handleChange}
 
-                    value={form.patient_id}
+                        className="w-full rounded-lg border border-gray-300 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
 
-                    onChange={handleChange}
+                        required
 
-                    className="rounded-lg border border-gray-300 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    />
 
-                    required
+                </div>
 
-                >
+                {/* Consultation Time */}
 
-                    <option value="">
+                <div>
 
-                        Select Patient
+                    <label className="mb-2 block text-sm font-semibold text-gray-700">
 
-                    </option>
+                        Consultation Time
 
-                    {patients.map((patient) => (
+                    </label>
 
-                        <option
+                    <input
 
-                            key={patient.patient_id}
+                        type="time"
 
-                            value={patient.patient_id}
+                        name="consultation_time"
 
-                        >
+                        value={form.consultation_time}
 
-                            {patient.firstname} {patient.lastname}
+                        onChange={handleChange}
+
+                        className="w-full rounded-lg border border-gray-300 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+
+                        required
+
+                    />
+
+                </div>
+
+                {/* Patient */}
+
+                <div className="md:col-span-2">
+
+                    <label className="mb-2 block text-sm font-semibold text-gray-700">
+
+                        Patient
+
+                    </label>
+
+                    <select
+
+                        name="patient_id"
+
+                        value={form.patient_id}
+
+                        onChange={handleChange}
+
+                        className="w-full rounded-lg border border-gray-300 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+
+                        required
+
+                    >
+
+                        <option value="">
+
+                            Select Patient
 
                         </option>
 
-                    ))}
+                        {
 
-                </select>
+                            patients.map((patient) => (
+
+                                <option
+
+                                    key={patient.patient_id}
+
+                                    value={patient.patient_id}
+
+                                >
+
+                                    {patient.firstname} {patient.lastname}
+
+                                </option>
+
+                            ))
+
+                        }
+
+                    </select>
+
+                </div>
+
+                {/* Button */}
 
                 <div className="md:col-span-2 flex justify-end">
 
                     <PrimaryButton type="submit">
 
-                        {editID
+                        {
 
-                            ? "Update Consultation"
+                            editID
 
-                            : "Add Consultation"}
+                                ? "Update Consultation"
+
+                                : "Schedule Consultation"
+
+                        }
 
                     </PrimaryButton>
 

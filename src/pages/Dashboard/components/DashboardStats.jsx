@@ -1,7 +1,8 @@
 import {
     Users,
     UserRound,
-    Stethoscope
+    Stethoscope,
+    ShieldCheck
 } from "lucide-react";
 
 import StatCard from "../../../components/StatCard/StatCard";

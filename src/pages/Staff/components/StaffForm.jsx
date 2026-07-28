@@ -55,7 +55,7 @@ function StaffForm({
 
                 <div className="md:col-span-2 flex justify-end">
                     <PrimaryButton type="submit">
-                        {editID ? "Update Staff" : "Add Staff"}
+                        {editID ? "Update Staff" : "Staff List"}
                     </PrimaryButton>
                 </div>
             </form>

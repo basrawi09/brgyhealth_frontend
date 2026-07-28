@@ -1,49 +1,101 @@
+import {
+    UserCog,
+    UserRound,
+    Stethoscope,
+    CalendarDays
+} from "lucide-react";
+
 function RecentActivity({ recent }) {
 
     return (
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="space-y-6">
 
-            {/* Recent Staff */}
+            <div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-md">
+                <h2 className="text-3xl font-bold text-gray-800">
 
-                <h2 className="mb-4 text-xl font-bold text-blue-600">
-
-                    Recent Staff
+                    Recent Activity
 
                 </h2>
 
-                {
+                <p className="mt-2 text-gray-500">
 
-                    recent.staff.length === 0 ?
+                    Latest updates across your Barangay Health Center.
 
-                        (
+                </p>
 
-                            <p className="text-gray-500">
+            </div>
 
-                                No recent staff found.
+            <div className="grid gap-6 xl:grid-cols-3">
 
-                            </p>
+                {/* ================= STAFF ================= */}
 
-                        )
+                <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md">
 
-                        :
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-5 text-white">
 
-                        (
+                        <div className="flex items-center gap-3">
 
-                            <ul className="space-y-3">
+                            <UserCog size={28} />
 
-                                {
+                            <div>
 
-                                    recent.staff.map((staff) => (
+                                <h3 className="text-xl font-bold">
 
-                                        <li
-                                            key={staff.staff_id}
-                                            className="rounded-lg bg-gray-50 p-3 transition hover:bg-gray-100"
-                                        >
+                                    Staff Members
 
-                                            <p className="font-semibold">
+                                </h3>
+
+                                <p className="text-sm text-blue-100">
+
+                                    Recently registered personnel
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div className="divide-y">
+
+                        {
+
+                            recent.staff.length === 0 ?
+
+                                (
+
+                                    <p className="p-6 text-center text-gray-500">
+
+                                        No recent staff.
+
+                                    </p>
+
+                                )
+
+                                :
+
+                                recent.staff.map((staff) => (
+
+                                    <div
+                                        key={staff.staff_id}
+                                        className="flex items-center gap-4 p-5 transition hover:bg-gray-50"
+                                    >
+
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+
+                                            <UserCog
+                                                size={22}
+                                                className="text-blue-600"
+                                            />
+
+                                        </div>
+
+                                        <div className="flex-1">
+
+                                            <p className="font-semibold text-gray-800">
 
                                                 {staff.firstname} {staff.lastname}
 
@@ -55,60 +107,85 @@ function RecentActivity({ recent }) {
 
                                             </p>
 
-                                        </li>
+                                        </div>
 
-                                    ))
+                                    </div>
 
-                                }
+                                ))
 
-                            </ul>
+                        }
 
-                        )
+                    </div>
 
-                }
+                </div>
 
-            </div>
+                {/* ================= PATIENT ================= */}
 
-            {/* Recent Patients */}
+                <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md">
 
-            <div className="rounded-2xl bg-white p-6 shadow-md">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-5 text-white">
 
-                <h2 className="mb-4 text-xl font-bold text-green-600">
+                        <div className="flex items-center gap-3">
 
-                    Recent Patients
+                            <UserRound size={28} />
 
-                </h2>
+                            <div>
 
-                {
+                                <h3 className="text-xl font-bold">
 
-                    recent.patients.length === 0 ?
+                                    Patients
 
-                        (
+                                </h3>
 
-                            <p className="text-gray-500">
+                                <p className="text-sm text-green-100">
 
-                                No recent patients found.
+                                    Recently registered patients
 
-                            </p>
+                                </p>
 
-                        )
+                            </div>
 
-                        :
+                        </div>
 
-                        (
+                    </div>
 
-                            <ul className="space-y-3">
+                    <div className="divide-y">
 
-                                {
+                        {
 
-                                    recent.patients.map((patient) => (
+                            recent.patients.length === 0 ?
 
-                                        <li
-                                            key={patient.patient_id}
-                                            className="rounded-lg bg-gray-50 p-3 transition hover:bg-gray-100"
-                                        >
+                                (
 
-                                            <p className="font-semibold">
+                                    <p className="p-6 text-center text-gray-500">
+
+                                        No recent patients.
+
+                                    </p>
+
+                                )
+
+                                :
+
+                                recent.patients.map((patient) => (
+
+                                    <div
+                                        key={patient.patient_id}
+                                        className="flex items-center gap-4 p-5 transition hover:bg-gray-50"
+                                    >
+
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+
+                                            <UserRound
+                                                size={22}
+                                                className="text-green-600"
+                                            />
+
+                                        </div>
+
+                                        <div className="flex-1">
+
+                                            <p className="font-semibold text-gray-800">
 
                                                 {patient.firstname} {patient.lastname}
 
@@ -116,92 +193,110 @@ function RecentActivity({ recent }) {
 
                                             <p className="text-sm text-gray-500">
 
-                                                Age: {patient.age}
+                                                Age {patient.age}
 
                                             </p>
 
-                                        </li>
+                                        </div>
 
-                                    ))
+                                    </div>
 
-                                }
+                                ))
 
-                            </ul>
+                        }
 
-                        )
+                    </div>
 
-                }
+                </div>
 
-            </div>
+                {/* ================= CONSULTATION ================= */}
 
-            {/* Recent Consultations */}
+                <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md">
 
-            <div className="rounded-2xl bg-white p-6 shadow-md">
+                    <div className="bg-gradient-to-r from-red-500 to-pink-500 p-5 text-white">
 
-                <h2 className="mb-4 text-xl font-bold text-red-600">
+                        <div className="flex items-center gap-3">
 
-                    Recent Consultations
+                            <Stethoscope size={28} />
 
-                </h2>
+                            <div>
 
-                {
+                                <h3 className="text-xl font-bold">
 
-                    recent.consultations.length === 0 ?
+                                    Consultations
 
-                        (
+                                </h3>
 
-                            <p className="text-gray-500">
+                                <p className="text-sm text-red-100">
 
-                                No recent consultations found.
+                                    Latest consultation records
 
-                            </p>
+                                </p>
 
-                        )
+                            </div>
 
-                        :
+                        </div>
 
-                        (
+                    </div>
 
-                            <ul className="space-y-3">
+                    <div className="divide-y">
 
-                                {
+                        {
 
-                                    recent.consultations.map((consultation) => (
+                            recent.consultations.length === 0 ?
 
-                                        <li
-                                            key={consultation.consultation_id}
-                                            className="rounded-lg bg-gray-50 p-3 transition hover:bg-gray-100"
-                                        >
+                                (
 
-                                            <p className="font-semibold">
+                                    <p className="p-6 text-center text-gray-500">
 
-                                                {consultation.diagnosis}
+                                        No recent consultations.
 
-                                            </p>
+                                    </p>
 
-                                            <p className="text-sm text-gray-500">
+                                )
 
-                                                Patient ID: {consultation.patient_id}
+                                :
 
-                                            </p>
+                                recent.consultations.map((consultation) => (
 
-                                            <p className="text-xs text-gray-400">
+                                    <div
+                                        key={consultation.consultation_id}
+                                        className="p-5 transition hover:bg-gray-50"
+                                    >
 
-                                                {consultation.consultation_date}
+                                        <div className="flex items-center justify-between">
 
-                                            </p>
+                                            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
 
-                                        </li>
+                                                Patient #{consultation.patient_id}
 
-                                    ))
+                                            </span>
 
-                                }
+                                        </div>
 
-                            </ul>
+                                        <p className="mt-3 font-semibold text-gray-800">
 
-                        )
+                                            {consultation.diagnosis}
 
-                }
+                                        </p>
+
+                                        <div className="mt-3 flex items-center gap-2 text-sm text-gray-500">
+
+                                            <CalendarDays size={16} />
+
+                                            {consultation.consultation_date}
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+
+                        }
+
+                    </div>
+
+                </div>
 
             </div>
 

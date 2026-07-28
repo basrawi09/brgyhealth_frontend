@@ -10,9 +10,9 @@ import DeleteModal from "../../components/Modal/DeleteModal";
 
 function Consultations() {
 
-const [consultations, setConsultations] = useState([]);
+    const [consultations, setConsultations] = useState([]);
 
-const [patients, setPatients] = useState([]);
+    const [patients, setPatients] = useState([]);
 
     const [search, setSearch] = useState("");
 
@@ -24,6 +24,7 @@ const [patients, setPatients] = useState([]);
         diagnosis: "",
         medicine: "",
         consultation_date: "",
+        consultation_time: "",
         patient_id: ""
     });
 
@@ -33,31 +34,31 @@ const [patients, setPatients] = useState([]);
 
     const [selectedConsultationID, setSelectedConsultationID] = useState(null);
 
-useEffect(() => {
+    useEffect(() => {
 
-    loadConsultations();
+        loadConsultations();
+
+        loadPatients();
+
+    }, []);
 
     async function loadPatients() {
 
-    try {
+        try {
 
-        const response = await API.get("/patient/");
+            const response = await API.get("/patient/");
 
-        setPatients(response.data);
+            setPatients(response.data);
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
 
     }
-
-    catch (error) {
-
-        console.error(error);
-
-    }
-
-}
-
-    loadPatients();
-
-}, []);
 
     async function loadConsultations() {
 
@@ -76,8 +77,6 @@ useEffect(() => {
         }
 
     }
-
-
 
     function handleChange(e) {
 
@@ -104,6 +103,8 @@ useEffect(() => {
                 medicine: form.medicine,
 
                 consultation_date: form.consultation_date,
+
+                consultation_time: form.consultation_time,
 
                 patient_id: Number(form.patient_id)
 
@@ -140,6 +141,8 @@ useEffect(() => {
                 medicine: "",
 
                 consultation_date: "",
+
+                consultation_time: "",
 
                 patient_id: ""
 
@@ -207,6 +210,8 @@ useEffect(() => {
 
             consultation_date: item.consultation_date,
 
+            consultation_time: item.consultation_time,
+
             patient_id: item.patient_id
 
         });
@@ -225,15 +230,17 @@ useEffect(() => {
 
                 String(item.consultation_id).includes(keyword) ||
 
-                    item.patient.firstname.toLowerCase().includes(keyword) ||
+                item.patient.firstname.toLowerCase().includes(keyword) ||
 
-                    item.patient.lastname.toLowerCase().includes(keyword) ||
+                item.patient.lastname.toLowerCase().includes(keyword) ||
 
-                    item.diagnosis.toLowerCase().includes(keyword) ||
+                item.diagnosis.toLowerCase().includes(keyword) ||
 
-                    item.medicine.toLowerCase().includes(keyword) ||
+                item.medicine.toLowerCase().includes(keyword) ||
 
-                    item.consultation_date.includes(keyword)
+                item.consultation_date.includes(keyword) ||
+
+                item.consultation_time.includes(keyword)
 
             );
 
@@ -277,7 +284,7 @@ useEffect(() => {
 
                     <p className="mt-2 text-gray-500">
 
-                        Manage patient consultations.
+                        Schedule and manage patient consultations.
 
                     </p>
 
@@ -303,7 +310,7 @@ useEffect(() => {
 
                         type="text"
 
-                        placeholder="🔍 Search by Patient, Diagnosis, Medicine or Date..."
+                        placeholder="🔍 Search by Patient, Diagnosis, Medicine, Date or Time..."
 
                         value={search}
 

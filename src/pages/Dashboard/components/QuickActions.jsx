@@ -3,55 +3,128 @@ import { Link } from "react-router-dom";
 import {
     UserPlus,
     ClipboardPlus,
-    HeartPulse
+    HeartPulse,
+    ArrowRight
 } from "lucide-react";
 
 function QuickActions() {
 
+    const actions = [
+
+        {
+            title: "Register Staff",
+            description:
+                "Create a new staff profile for the Barangay Health Center.",
+            icon: <UserPlus size={34} />,
+            color: "from-blue-500 to-cyan-500",
+            link: "/staff"
+        },
+
+        {
+            title: "Register Patient",
+            description:
+                "Add a new patient and maintain complete health records.",
+            icon: <ClipboardPlus size={34} />,
+            color: "from-green-500 to-emerald-500",
+            link: "/patients"
+        },
+
+        {
+            title: "New Consultation",
+            description:
+                "Record today's consultation, diagnosis, and treatment.",
+            icon: <HeartPulse size={34} />,
+            color: "from-red-500 to-pink-500",
+            link: "/consultations"
+        }
+
+    ];
+
     return (
 
-        <div className="rounded-2xl bg-white p-6 shadow-md">
+        <div className="space-y-6">
 
-            <h2 className="mb-6 text-2xl font-bold text-gray-800">
+            <div>
 
-                Quick Actions
+                <h2 className="text-3xl font-bold text-gray-800">
 
-            </h2>
+                    Quick Actions
 
-            <div className="grid gap-4 md:grid-cols-3">
+                </h2>
 
-                <Link
-                    to="/staff"
-                    className="flex items-center justify-center gap-3 rounded-xl bg-blue-600 px-6 py-4 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-lg"
-                >
+                <p className="mt-2 text-gray-500">
 
-                    <UserPlus size={22} />
+                    Quickly access the most frequently used features.
 
-                    <span>Add Staff</span>
+                </p>
 
-                </Link>
+            </div>
 
-                <Link
-                    to="/patients"
-                    className="flex items-center justify-center gap-3 rounded-xl bg-green-600 px-6 py-4 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:shadow-lg"
-                >
+            <div className="grid gap-6 lg:grid-cols-3">
 
-                    <ClipboardPlus size={22} />
+                {
 
-                    <span>Add Patient</span>
+                    actions.map((action) => (
 
-                </Link>
+                        <Link
+                            key={action.title}
+                            to={action.link}
+                            className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                        >
 
-                <Link
-                    to="/consultations"
-                    className="flex items-center justify-center gap-3 rounded-xl bg-red-600 px-6 py-4 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-red-700 hover:shadow-lg"
-                >
+                            <div
+                                className={`bg-gradient-to-r ${action.color} p-6 text-white`}
+                            >
 
-                    <HeartPulse size={22} />
+                                <div className="flex items-center justify-between">
 
-                    <span>Add Consultation</span>
+                                    <div className="rounded-2xl bg-white/20 p-4">
 
-                </Link>
+                                        {action.icon}
+
+                                    </div>
+
+                                    <ArrowRight
+                                        size={24}
+                                        className="transition-transform duration-300 group-hover:translate-x-2"
+                                    />
+
+                                </div>
+
+                            </div>
+
+                            <div className="p-6">
+
+                                <h3 className="text-xl font-bold text-gray-800">
+
+                                    {action.title}
+
+                                </h3>
+
+                                <p className="mt-3 leading-relaxed text-gray-500">
+
+                                    {action.description}
+
+                                </p>
+
+                                <div className="mt-6 flex items-center font-semibold text-blue-600">
+
+                                    Open Module
+
+                                    <ArrowRight
+                                        size={18}
+                                        className="ml-2 transition-transform duration-300 group-hover:translate-x-2"
+                                    />
+
+                                </div>
+
+                            </div>
+
+                        </Link>
+
+                    ))
+
+                }
 
             </div>
 

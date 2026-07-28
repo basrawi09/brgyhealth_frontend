@@ -7,13 +7,17 @@ import DashboardStats from "./components/DashboardStats";
 import QuickActions from "./components/QuickActions";
 import RecentActivity from "./components/RecentActivity";
 import DashboardCharts from "./components/DashboardCharts";
+import TodaySchedule from "./components/TodaySchedule";
+
+import { RefreshCw } from "lucide-react";
 
 function Dashboard() {
 
     const [stats, setStats] = useState({
         staff: 0,
         patients: 0,
-        consultations: 0
+        consultations: 0,
+        users: 0
     });
 
     const [recent, setRecent] = useState({
@@ -21,6 +25,8 @@ function Dashboard() {
         patients: [],
         consultations: []
     });
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -32,30 +38,31 @@ function Dashboard() {
 
         try {
 
-            const statsResponse = await API.get(
-                "/dashboard/stats"
-            );
+            setLoading(true);
 
-            const recentResponse = await API.get(
-                "/dashboard/recent"
-            );
+            const [statsResponse, recentResponse] = await Promise.all([
 
-            setStats(
-                statsResponse.data
-            );
+                API.get("/dashboard/stats"),
 
-            setRecent(
-                recentResponse.data
-            );
+                API.get("/dashboard/recent")
+
+            ]);
+
+            setStats(statsResponse.data);
+
+            setRecent(recentResponse.data);
 
         }
 
         catch (error) {
 
-            console.error(
-                "Dashboard Error:",
-                error
-            );
+            console.error("Dashboard Error:", error);
+
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
@@ -65,19 +72,74 @@ function Dashboard() {
 
         <div className="space-y-10">
 
-            <DashboardHeader />
+            <div className="flex items-center justify-between">
 
-            <DashboardStats
-                stats={stats}
-            />
+                <DashboardHeader />
 
-            <QuickActions />
+                <button
+                    onClick={loadDashboard}
+                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700"
+                >
 
-            <RecentActivity
-                recent={recent}
-            />
+                    <RefreshCw size={18} />
 
-            <DashboardCharts />
+                    Refresh
+
+                </button>
+
+            </div>
+
+            {
+
+                loading ?
+
+                    (
+
+                        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+
+                            {
+
+                                [...Array(4)].map((_, index) => (
+
+                                    <div
+                                        key={index}
+                                        className="h-44 animate-pulse rounded-3xl bg-gray-200"
+                                    />
+
+                                ))
+
+                            }
+
+                        </div>
+
+                    )
+
+                    :
+
+                    (
+
+                        <>
+
+                            <DashboardStats
+                                stats={stats}
+                            />
+
+                            <QuickActions />
+
+                            {/* NEW */}
+                            <TodaySchedule />
+
+                            <RecentActivity
+                                recent={recent}
+                            />
+
+                            <DashboardCharts />
+
+                        </>
+
+                    )
+
+            }
 
         </div>
 

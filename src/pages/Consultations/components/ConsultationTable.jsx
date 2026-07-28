@@ -18,7 +18,7 @@ function ConsultationTable({
 
     return (
 
-        <Card title="Consultation List">
+        <Card title="Consultation Schedule">
 
             <TableContainer>
 
@@ -56,6 +56,12 @@ function ConsultationTable({
 
                         </th>
 
+                        <th className="px-6 py-4 text-left">
+
+                            Time
+
+                        </th>
+
                         <th className="px-6 py-4 text-center">
 
                             Actions
@@ -68,23 +74,27 @@ function ConsultationTable({
 
                 <tbody>
 
-                    {consultations.length === 0 ? (
+                    {
 
-                        <tr>
+                        consultations.length === 0 ? (
 
-                            <td colSpan="6">
+                            <tr>
 
-                                <EmptyState
+                                <td colSpan="7">
 
-                                    message="No consultations found."
+                                    <EmptyState
 
-                                />
+                                        message="No consultations found."
 
-                            </td>
+                                    />
 
-                        </tr>
+                                </td>
 
-                    ) : (
+                            </tr>
+
+                        )
+
+                        :
 
                         consultations.map((item) => (
 
@@ -92,7 +102,7 @@ function ConsultationTable({
 
                                 key={item.consultation_id}
 
-                                className="border-b hover:bg-gray-50"
+                                className="border-b transition hover:bg-blue-50"
 
                             >
 
@@ -102,7 +112,7 @@ function ConsultationTable({
 
                                 </td>
 
-                                <td className="px-6 py-4 font-medium">
+                                <td className="px-6 py-4 font-semibold">
 
                                     {item.patient.firstname} {item.patient.lastname}
 
@@ -123,6 +133,15 @@ function ConsultationTable({
                                 <td className="px-6 py-4">
 
                                     {item.consultation_date}
+
+                                </td>
+
+                                <td className="px-6 py-4">
+
+                                    <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+
+                                        {item.consultation_time}
+                                    </span>
 
                                 </td>
 
@@ -162,7 +181,7 @@ function ConsultationTable({
 
                         ))
 
-                    )}
+                    }
 
                 </tbody>
 
