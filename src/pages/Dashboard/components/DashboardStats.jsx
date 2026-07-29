@@ -34,6 +34,13 @@ function DashboardStats({ stats }) {
                 color="bg-red-100 text-red-600"
             />
 
+            <StatCard
+                title="System Users"
+                value={stats.users}
+                icon={<ShieldCheck size={30} />}
+                color="bg-purple-100 text-purple-600"
+            />
+
         </div>
 
     );

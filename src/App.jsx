@@ -7,10 +7,10 @@ import Staff from "./pages/Staff/Staff";
 import Patients from "./pages/Patients/Patients";
 import Consultations from "./pages/Consultations/Consultations";
 import Users from "./pages/Users/Users";
+import Calendar from "./pages/Calendar/Calendar";
 
 import Login from "./auth/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
-
 
 function App() {
 
@@ -79,14 +79,29 @@ function App() {
                     }
                 />
 
+                {/* Appointment Calendar */}
+
+                <Route
+                    path="/calendar"
+                    element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <Calendar />
+                            </Layout>
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Users */}
+
                 <Route
                     path="/users"
                     element={
                         <ProtectedRoute>
-                             <Layout>
+                            <Layout>
                                 <Users />
                             </Layout>
-                         </ProtectedRoute>
+                        </ProtectedRoute>
                     }
                 />
 

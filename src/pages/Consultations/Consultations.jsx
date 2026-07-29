@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 
 import API from "../../services/api";
 
@@ -54,6 +55,8 @@ function Consultations() {
 
         catch (error) {
 
+            toast.error("Failed to load patients.");
+
             console.error(error);
 
         }
@@ -71,6 +74,8 @@ function Consultations() {
         }
 
         catch (error) {
+
+            toast.error("Failed to load consultations.");
 
             console.error(error);
 
@@ -120,6 +125,8 @@ function Consultations() {
 
                 );
 
+                toast.success("Consultation updated successfully!");
+
             }
 
             else {
@@ -131,6 +138,8 @@ function Consultations() {
                     payload
 
                 );
+
+                toast.success("Consultation scheduled successfully!");
 
             }
 
@@ -155,6 +164,8 @@ function Consultations() {
         }
 
         catch (error) {
+
+            toast.error("Failed to save consultation.");
 
             console.error(error.response?.data || error);
 
@@ -186,6 +197,8 @@ function Consultations() {
 
             await API.delete(`/consultations/${selectedConsultationID}`);
 
+            toast.success("Consultation deleted successfully!");
+
             closeDeleteModal();
 
             loadConsultations();
@@ -193,6 +206,8 @@ function Consultations() {
         }
 
         catch (error) {
+
+            toast.error("Failed to delete consultation.");
 
             console.error(error);
 
