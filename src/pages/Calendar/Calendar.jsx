@@ -250,11 +250,32 @@ function Calendar() {
 
                     timeSlots.map((slot) => {
 
-                        const appointment = appointments.find(
+                        const slotAppointments = appointments
+                            .filter((item) => {
 
-                            item => item.time === slot
-
+                        const appointmentTime = new Date(
+                            `2000-01-01T${item.consultation_time}`
                         );
+
+                        const slotTime = new Date(
+                            `2000-01-01 ${slot}`
+                        );
+
+                        const difference =
+                            (appointmentTime - slotTime) / 60000;
+
+                        return difference >= 0 && difference < 30;
+
+                        })
+                        .sort((a, b) => {
+
+                        return new Date(
+                        `2000-01-01T${a.consultation_time}`
+                        ) - new Date(
+                        `2000-01-01T${b.consultation_time}`
+                        );
+
+                        });
 
                         return (
 
@@ -284,73 +305,98 @@ function Calendar() {
 
                                     {
 
-                                        appointment ?
+    slotAppointments.length > 0 ?
 
-                                        (
+    (
 
-                                            <div className="rounded-lg border-l-4 border-blue-600 bg-blue-50 p-4 transition hover:shadow">
+        <div className="space-y-3">
 
-                                                <div className="flex items-center justify-between">
+            {
 
-                                                    <h3 className="font-bold">
+                slotAppointments.map((appointment) => (
 
-                                                        {appointment.patient_name}
+                    <div
+                        key={appointment.consultation_id}
+                        className="rounded-lg border-l-4 border-blue-600 bg-blue-50 p-4 transition hover:shadow"
+                    >
 
-                                                    </h3>
+                        <div className="flex items-center justify-between">
 
-                                                    <span className="rounded-full bg-blue-600 px-3 py-1 text-xs text-white">
+                            <div>
 
-                                                        Scheduled
+                                <h3 className="font-bold">
 
-                                                    </span>
+                                    {appointment.patient_name}
 
-                                                </div>
+                                </h3>
 
-                                                <p className="mt-2 text-sm">
+                                <p className="text-xs text-blue-700 mt-1">
 
-                                                    Diagnosis:
+                                    🕒 {appointment.time}
 
-                                                    {" "}
+                                </p>
 
-                                                    <strong>
+                            </div>
 
-                                                        {appointment.diagnosis}
+                            <span className="rounded-full bg-blue-600 px-3 py-1 text-xs text-white">
 
-                                                    </strong>
+                                Scheduled
 
-                                                </p>
+                            </span>
 
-                                                <p className="text-sm">
+                        </div>
 
-                                                    Medicine:
+                        <p className="mt-3 text-sm">
 
-                                                    {" "}
+                            Diagnosis:
 
-                                                    <strong>
+                            {" "}
 
-                                                        {appointment.medicine}
+                            <strong>
 
-                                                    </strong>
+                                {appointment.diagnosis}
 
-                                                </p>
+                            </strong>
 
-                                            </div>
+                        </p>
 
-                                        )
+                        <p className="text-sm">
 
-                                        :
+                            Medicine:
 
-                                        (
+                            {" "}
 
-                                            <div className="rounded-lg border border-dashed p-4 text-gray-400">
+                            <strong>
 
-                                                Available
+                                {appointment.medicine}
 
-                                            </div>
+                            </strong>
 
-                                        )
+                        </p>
 
-                                    }
+                    </div>
+
+                ))
+
+            }
+
+        </div>
+
+    )
+
+    :
+
+    (
+
+        <div className="rounded-lg border border-dashed p-4 text-gray-400">
+
+            Available
+
+        </div>
+
+    )
+
+}
 
                                 </div>
 

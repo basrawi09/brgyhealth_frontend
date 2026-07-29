@@ -18,6 +18,9 @@ function Sidebar() {
 
     const { user } = useAuth();
 
+    // Normalize the role to lowercase
+    const role = user?.role?.toLowerCase();
+
     const links = [
 
         {
@@ -65,7 +68,7 @@ function Sidebar() {
     ];
 
     const visibleLinks = links.filter(
-        link => user && link.roles.includes(user.role)
+        link => role && link.roles.includes(role)
     );
 
     return (
@@ -80,12 +83,10 @@ function Sidebar() {
             </button>
 
             {open && (
-
                 <div
                     className="fixed inset-0 z-30 bg-black/40 md:hidden"
                     onClick={() => setOpen(false)}
                 />
-
             )}
 
             <aside

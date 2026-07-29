@@ -15,7 +15,8 @@ function Staff() {
 
     const { user } = useAuth();
 
-    const isAdmin = user?.role === "admin";
+    // FIX: Accept both "Admin" and "admin"
+    const isAdmin = user?.role?.toLowerCase() === "admin";
 
     const [staff, setStaff] = useState([]);
     const [search, setSearch] = useState("");
@@ -33,47 +34,31 @@ function Staff() {
     const [editID, setEditID] = useState(null);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-
     const [selectedStaffID, setSelectedStaffID] = useState(null);
 
     useEffect(() => {
-
         loadStaff();
-
     }, []);
 
     async function loadStaff() {
-
         try {
-
             const response = await API.get("/staff/");
-
             setStaff(response.data);
-
         }
-
         catch (error) {
-
+            console.error(error);
             toast.error("Failed to load staff.");
-
         }
-
     }
 
     function handleChange(e) {
-
         setForm({
-
             ...form,
-
             [e.target.name]: e.target.value
-
         });
-
     }
 
     async function saveStaff(e) {
-
         e.preventDefault();
 
         try {
@@ -84,9 +69,7 @@ function Staff() {
 
                 toast.success("Staff updated successfully!");
 
-            }
-
-            else {
+            } else {
 
                 await API.post("/staff/", form);
 
@@ -95,12 +78,10 @@ function Staff() {
             }
 
             setForm({
-
                 firstname: "",
                 lastname: "",
                 position: "",
                 contact_number: ""
-
             });
 
             setEditID(null);
@@ -108,29 +89,26 @@ function Staff() {
             loadStaff();
 
         }
+        catch (error) {
 
-        catch {
+            console.error(error);
 
-            toast.error("Failed to save staff.");
-
+            if (error.response) {
+                toast.error(error.response.data.detail || "Failed to save staff.");
+            } else {
+                toast.error("Failed to save staff.");
+            }
         }
-
     }
 
     function openDeleteModal(id) {
-
         setSelectedStaffID(id);
-
         setShowDeleteModal(true);
-
     }
 
     function closeDeleteModal() {
-
         setSelectedStaffID(null);
-
         setShowDeleteModal(false);
-
     }
 
     async function confirmDelete() {
@@ -146,13 +124,12 @@ function Staff() {
             loadStaff();
 
         }
+        catch (error) {
 
-        catch {
+            console.error(error);
 
             toast.error("Failed to delete staff.");
-
         }
-
     }
 
     function editStaff(data) {
@@ -160,17 +137,13 @@ function Staff() {
         setForm({
 
             firstname: data.firstname,
-
             lastname: data.lastname,
-
             position: data.position,
-
             contact_number: data.contact_number
 
         });
 
         setEditID(data.staff_id);
-
     }
 
     const filteredStaff = useMemo(() => {
@@ -204,9 +177,7 @@ function Staff() {
     );
 
     useEffect(() => {
-
         setCurrentPage(1);
-
     }, [search]);
 
     return (
