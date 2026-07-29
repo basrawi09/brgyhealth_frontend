@@ -39,9 +39,7 @@ function Patients() {
     const [selectedPatientID, setSelectedPatientID] = useState(null);
 
     useEffect(() => {
-
         loadPatients();
-
     }, []);
 
     async function loadPatients() {
@@ -52,12 +50,9 @@ function Patients() {
 
             setPatients(response.data);
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             toast.error("Failed to load patients.");
-
             console.error(error);
 
         }
@@ -67,11 +62,8 @@ function Patients() {
     function handleChange(e) {
 
         setForm({
-
             ...form,
-
             [e.target.name]: e.target.value
-
         });
 
     }
@@ -82,48 +74,32 @@ function Patients() {
 
         try {
 
+            // ✅ staff_id is now included for BOTH create and update
             const payload = {
 
                 firstname: form.firstname,
-
                 lastname: form.lastname,
-
                 age: Number(form.age),
-
                 address: form.address,
-
-                contact_number: form.contact_number
+                contact_number: form.contact_number,
+                staff_id: Number(form.staff_id)
 
             };
 
             if (editID) {
 
                 await API.put(
-
                     `/patient/${editID}`,
-
                     payload
-
                 );
 
                 toast.success("Patient updated successfully!");
 
-            }
-
-            else {
+            } else {
 
                 await API.post(
-
                     "/patient/",
-
-                    {
-
-                        ...payload,
-
-                        staff_id: Number(form.staff_id)
-
-                    }
-
+                    payload
                 );
 
                 toast.success("Patient added successfully!");
@@ -133,15 +109,10 @@ function Patients() {
             setForm({
 
                 firstname: "",
-
                 lastname: "",
-
                 age: "",
-
                 address: "",
-
                 contact_number: "",
-
                 staff_id: ""
 
             });
@@ -150,13 +121,15 @@ function Patients() {
 
             loadPatients();
 
-        }
+        } catch (error) {
 
-        catch (error) {
+            console.error("Save Patient Error:", error.response?.data);
 
-            toast.error("Failed to save patient.");
-
-            console.error(error);
+            toast.error(
+                error.response?.data?.detail
+                    ? JSON.stringify(error.response.data.detail)
+                    : "Failed to save patient."
+            );
 
         }
 
@@ -192,13 +165,11 @@ function Patients() {
 
             loadPatients();
 
-        }
+        } catch (error) {
 
-        catch (error) {
+            console.error(error.response?.data);
 
             toast.error("Failed to delete patient.");
-
-            console.error(error);
 
         }
 
@@ -209,15 +180,10 @@ function Patients() {
         setForm({
 
             firstname: patient.firstname,
-
             lastname: patient.lastname,
-
             age: patient.age,
-
             address: patient.address,
-
             contact_number: patient.contact_number,
-
             staff_id: patient.staff_id
 
         });
@@ -289,11 +255,8 @@ function Patients() {
                 <PatientForm
 
                     form={form}
-
                     handleChange={handleChange}
-
                     savePatient={savePatient}
-
                     editID={editID}
 
                 />
@@ -319,11 +282,8 @@ function Patients() {
                 <PatientTable
 
                     patients={paginatedPatients}
-
                     editPatient={editPatient}
-
                     deletePatient={isAdmin ? openDeleteModal : null}
-
                     isAdmin={isAdmin}
 
                 />
@@ -331,9 +291,7 @@ function Patients() {
                 <Pagination
 
                     currentPage={currentPage}
-
                     totalPages={totalPages}
-
                     onPageChange={setCurrentPage}
 
                 />
